@@ -18,11 +18,11 @@ docker (atualmente está como docker  1:19.03.4-1)
 docker-compose (atualmente está como docker-compose  1.24.1-1)
 mkcert (atualmente está como mkcert  1.4.1-1)
 ```
-E as compile, lembrando que este processo e todas pela interface gráfica do ``Adicione ou remova programas instalados no sistema``
+E as compile, lembrando que este processo são todas pela interface gráfica do ``Adicione ou remova programas instalados no sistema``
 
 Depois de compilado utilizando esta mesma estrutura do git acesse o caminho em que foi salvo os arquivos e pastas, execute: ``sudo docker-compose up``
 
-Aguarde a monstagem de todas das imagens, caso obtenha um erro e queira remontar todo o processo segue abaixo alguns comandos.
+Aguarde a montagem de todas das imagens, caso obtenha um erro e queira remontar todo o processo segue abaixo alguns comandos.
 
 **observação:** deixarei na ordem exata para que todos os comandos funcionem com sucesso
 
@@ -33,7 +33,7 @@ Aguarde a monstagem de todas das imagens, caso obtenha um erro e queira remontar
 Verifique se temos algum como ``Up x hours`` na coluna ``STATUS``, caso sim, será necessário "stopa-los".
 Caso não, prossiga para o processo de desmontagem
 
-utilizaremos os _CONTAINER ID_ para a ``desmontagem`` e ``stop service``, no meu caso tenho:
+utilizaremos os ``CONTAINER ID`` para a ``desmontagem`` e ``stop service``, no meu caso tenho:
 ```
 CONTAINER ID        IMAGE                          COMMAND                  CREATED             STATUS                          PORTS                                                    NAMES
 26506552fb5b        phpmyadmin/phpmyadmin:latest   "/docker-entrypoint.…"   16 hours ago        Up 3 hours                      0.0.0.0:8082->80/tcp                                     phpmyadmin
@@ -45,17 +45,17 @@ CONTAINER ID        IMAGE                          COMMAND                  CREA
 O comando padrão para **stop service** é ``sudo docker stop [CONTAINER ID]``
 Como temos mais de um faremos a inserção de todos separando-os com espaço ``sudo docker stop 26506552fb5b 1e5a335c4dc2 088d59016bf8``
 
-
+##### desmontagem
 O comando padrão para **desmontagem** é ``sudo docker rm [CONTAINER ID]``
 Como temos mais de um faremos a inserção de todos separando-os com espaço ``sudo docker rm 26506552fb5b 1e5a335c4dc2 088d59016bf8``
 
 Pronto!
 
 #### Delete as imagens
-O processo de inserção de várias imagens é idem ao dos containers, porém o comando para desmontagem das imagens.
+O processo de inserção de várias imagens é idem ao dos containers, porém com o comando para desmontagem das imagens.
 ``sudo docker images`` (para listar todas as imagens)
 
-utilizaremos os _IMAGE ID_ para a ``desmontagem`` de todos que possuem nomenclatura na coluna _REPOSITORY_ exemplo: php, mysql, nginx, etc, no meu caso tenho:
+utilizaremos os ``IMAGE ID`` para a ``desmontagem`` de todos que possuem nomenclatura na coluna ``REPOSITORY`` exemplo: php, mysql, nginx, etc, no meu caso tenho:
 ```
 REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
 mysql                   latest              20d2d382e6ae        17 hours ago        456MB
