@@ -1,4 +1,9 @@
+Lembrete:
+Preciso reajustar o docker-compose.yml para o mysql, estamos com problemas.
+
 #### Como criar um localhost HTTPS com mkcert e docker
+
+> Este repositório trata-se de anotações pessoais e não um repositório oficial que deva ser levado em consideração junto aos documentos oficiais de cada ferramenta mencionada aqui
 
 ##### Relação de ferramentas
 ```
@@ -20,9 +25,25 @@ mkcert (atualmente está como mkcert  1.4.1-1)
 ```
 E as compile, lembrando que este processo são todas pela interface gráfica do ``Adicione ou remova programas instalados no sistema``
 
-Depois de compilado utilizando esta mesma estrutura do git acesse o caminho em que foi salvo os arquivos e pastas, execute: ``sudo docker-compose up``
+_Agora que já temos todas as ferramentas necessárias, mãos à obra._
 
-Aguarde a montagem de todas das imagens, caso obtenha um erro e queira remontar todo o processo segue abaixo alguns comandos.
+Primeiro, necessitamos fazer a instalação do ``mkcert`` para que possamos gerar nossos certificados, para isso execute: ``mkcert -install``
+
+_Pronto!_ Já estamos aptos a gerar nossos certificados. Agora salve toda essa estrutura de pastas e arquivos onde desejar.
+
+Acesse o caminho em que foi salvo os arquivos e pastas e vá para ``./certs`` faça: 
+
+1. delete os dois certificados salvos, pois estes pertecem somente a minha máquina
+
+1. agora execute: ``mkcert localhost``, e você obterá os mesmos arquivos novamente, porém agora destinados a sua máquina.
+
+_Pronto!_ Sua estrutura está pronta para ser usada junto aos certificados do ``mkcert`` para uma conexão ``https://localhost``
+
+Agora vamos para a montagem do nosso ``docker``, volte para a nossa pasta raiz (que nesta estrutura trata-se da pasta ``./docker``) e execute: ``sudo docker-compose up``
+
+Aguarde a montagem de todas das imagens e _Pronto!_ Agora temos um acesso ``https://localhost``
+
+Caso obtenha um erro e queira remontar todo o ``docker``, segue abaixo alguns comandos.
 
 **observação:** deixarei na ordem exata para que todos os comandos funcionem com sucesso
 
@@ -30,10 +51,11 @@ Aguarde a montagem de todas das imagens, caso obtenha um erro e queira remontar 
 
 ``sudo docker ps -a`` (para listar todos os containers)
 
-Verifique se temos algum como ``Up x hours`` na coluna ``STATUS``, caso sim, será necessário "stopa-los".
-Caso não, prossiga para o processo de desmontagem
+Verifique se temos algum como ``Up`` na coluna ``STATUS``, caso sim, será necessário ~~stopa-los~~.
 
-utilizaremos os ``CONTAINER ID`` para a ``desmontagem`` e ``stop service``, no meu caso tenho:
+_Caso **não**, faça somente o processo de **desmontagem**_
+
+Utilizaremos os ``CONTAINER ID`` para a ``desmontagem`` e ``stop service``, no meu caso tenho:
 ```
 CONTAINER ID        IMAGE                          COMMAND                  CREATED             STATUS                          PORTS                                                    NAMES
 26506552fb5b        phpmyadmin/phpmyadmin:latest   "/docker-entrypoint.…"   16 hours ago        Up 3 hours                      0.0.0.0:8082->80/tcp                                     phpmyadmin
@@ -88,16 +110,3 @@ Are you sure you want to continue? [y/N]
 Pronto!
 
 Agora estamos pronto refazer toda a montagem do docker
-
-Para o readME:
-- [x] Informar as ferramentas necessárias
-- [x] Instalação das ferramentas
-- [x] sudo docker-compose up
-- [x] sudo docker ps -a
-- [x] sudo docker stop [CONTAINER ID]
-- [x] sudo docker rm [CONTAINER ID]
-- [x] sudo docker images
-- [x] sudo docker rmi [IMAGE ID]
-- [x] sudo docker system prune
-- [ ] mkcert -install
-- [ ] /certs: mkcert localhost
