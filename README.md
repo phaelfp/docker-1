@@ -1,18 +1,18 @@
 Lembrete:
 Preciso reajustar o docker-compose.yml para o mysql, estamos com problemas.
 
-#### Como criar um localhost HTTPS com mkcert e docker
+## Como criar um localhost HTTPS com mkcert e docker
 
 > Este repositório trata-se de anotações pessoais e não um repositório oficial que deva ser levado em consideração junto aos documentos oficiais de cada ferramenta mencionada aqui
 
-##### Relação de ferramentas
+### Relação de ferramentas
 ```
 docker
 docker-compose
 mkcert (brew para a instalação do mkcert dependendo do so)
 ```
 
-##### Manjaro KDE
+### Manjaro KDE - AUR
 Habilite o repositório AUR na interface gráfica em: ``Adicione ou remova programas instalados no sistema > menu no canto superior direito > Preferências > Tab AUR``
 
 ![](img/prefencias-aur.png)
@@ -26,6 +26,8 @@ mkcert (atualmente está como mkcert  1.4.1-1)
 E as compile, lembrando que este processo são todas pela interface gráfica do ``Adicione ou remova programas instalados no sistema``
 
 _Agora que já temos todas as ferramentas necessárias, mãos à obra._
+
+## Montando docker localhost https
 
 Primeiro, necessitamos fazer a instalação do ``mkcert`` para que possamos gerar nossos certificados, para isso execute: ``mkcert -install``
 
