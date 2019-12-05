@@ -148,3 +148,13 @@ A pasta que continha todas as informações de nosso database foi deletada.
 _Pronto!_
 
 Agora estamos prontos para refazer toda a montagem do docker
+
+
+#####Agradecimentos
+Telegram:
+
+@sistematico
+
+@tcarreira
+
+[dockerbr](https://t.me/dockerbr)
