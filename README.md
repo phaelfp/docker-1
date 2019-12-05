@@ -151,6 +151,7 @@ Agora estamos prontos para refazer toda a montagem do docker
 
 
 #####Agradecimentos
+
 Telegram:
 
 @sistematico
