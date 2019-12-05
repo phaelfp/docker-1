@@ -59,29 +59,27 @@ services:
 
   mysql:
     container_name: mysql
-    image: mysql:latest
-    command: --default-authentication-plugin=mysql_native_password
+    image: mysql:5.6
     ports:
       - "3306:3306"
-    build:
-      context: dockerfile
-      dockerfile: mysql
     volumes:
-      - ./mysql/data/mysql:/var/lib/mysql
+      - ./mysql/data:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=dashboard_adm
-    restart: unless-stopped
 
   phpmyadmin:
     container_name: phpmyadmin
     image: phpmyadmin/phpmyadmin:latest
     depends_on:
       - mysql
+    links:
+      - mysql
     ports:
       - "8082:80"
     volumes:
       - ./conf/phpmyadmin.php:/etc/phpmyadmin/config.user.inc.php
     environment:
+      - PMA_ARBITRARY=1
       - PMA_HOST=mysql
     restart: unless-stopped

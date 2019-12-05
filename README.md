@@ -1,9 +1,6 @@
-Lembrete:
-Preciso reajustar o docker-compose.yml para o mysql, estamos com problemas.
-
 ## Como criar um localhost HTTPS com mkcert e docker
 
-> Este repositório trata-se de anotações pessoais e não um repositório oficial que deva ser levado em consideração junto aos documentos oficiais de cada ferramenta mencionada aqui
+> Este repositório trata-se de **anotações pessoais** e não um repositório oficial que deva ser levado em consideração junto aos documentos oficiais de cada ferramenta mencionada aqui
 
 ### Relação de ferramentas
 ```
@@ -29,9 +26,10 @@ _Agora que já temos todas as ferramentas necessárias, mãos à obra._
 
 ## Montando docker localhost https
 
+### mkcert
 Primeiro, necessitamos fazer a instalação do ``mkcert`` para que possamos gerar nossos certificados, para isso execute: ``mkcert -install``
 
-_Pronto!_ Já estamos aptos a gerar nossos certificados. Agora salve toda essa estrutura de pastas e arquivos onde desejar.
+Já estamos aptos a gerar nossos certificados. Agora salve toda essa estrutura de pastas e arquivos onde desejar.
 
 Acesse o caminho em que foi salvo os arquivos e pastas e vá para ``./certs`` faça: 
 
@@ -39,11 +37,45 @@ Acesse o caminho em que foi salvo os arquivos e pastas e vá para ``./certs`` fa
 
 1. agora execute: ``mkcert localhost``, e você obterá os mesmos arquivos novamente, porém agora destinados a sua máquina.
 
-_Pronto!_ Sua estrutura está pronta para ser usada junto aos certificados do ``mkcert`` para uma conexão ``https://localhost``
+Sua estrutura está pronta para ser usada junto aos certificados do ``mkcert`` para uma conexão ``https://localhost``
 
+
+### mysql
+Para o acesso ao banco de dados tente como ``mysql`` mas provalmente funcionará como ``loocalhost`` assim como funcionou no ~~JetBrains DataGrip~~ pra mim.
+Caso queira mudar a senha do root e o nome do primeiro database:
+```
+mysql:
+    ...
+    environment:
+          - MYSQL_ROOT_PASSWORD=password
+          - MYSQL_DATABASE=dashboard_adm
+    ...
+
+```
+
+### php myadmin
+Para o acesso no phpAdmin, usaremos http://localhost:8082
+
+```
+server: mysql
+user: root
+passaword: password
+```
+
+Caso queira mudar a porta:
+```
+phpmyadmin:
+    ...
+    ports:
+          - "8082:80"
+    ...
+```
+
+### Montagem do docker
 Agora vamos para a montagem do nosso ``docker``, volte para a nossa pasta raiz (que nesta estrutura trata-se da pasta ``./docker``) e execute: ``sudo docker-compose up``
 
 Aguarde a montagem de todas das imagens e _Pronto!_ Agora temos um acesso ``https://localhost``
+
 
 Caso obtenha um erro e queira remontar todo o ``docker``, segue abaixo alguns comandos.
 
@@ -73,7 +105,6 @@ Como temos mais de um faremos a inserção de todos separando-os com espaço ``s
 O comando padrão para **desmontagem** é ``sudo docker rm [CONTAINER ID]``
 Como temos mais de um faremos a inserção de todos separando-os com espaço ``sudo docker rm 26506552fb5b 1e5a335c4dc2 088d59016bf8``
 
-Pronto!
 
 #### Delete as imagens
 O processo de inserção de várias imagens é idem ao dos containers, porém com o comando para desmontagem das imagens.
@@ -89,8 +120,6 @@ phpmyadmin/phpmyadmin   latest              cfc30cbfee46        2 days ago      
 
 O comando padrão para **desmontagem** é ``sudo docker rmi [IMAGE ID]``
 Como temos mais de um faremos a inserção de todos separando-os com espaço ``sudo docker rmi 20d2d382e6ae ef8141df4701 cfc30cbfee46 ``
-
-Pronto!
 
 #### Faça a limpeza do docker
 Este de fato ainda não sei explicar a sua função, mas ao meu entender é como se fosse uma limpeza de cache do docker
@@ -109,6 +138,13 @@ WARNING! This will remove:
 Are you sure you want to continue? [y/N]
 ```
 
-Pronto!
+#### Limpeza mysql
+Agora que já limpamos as imagens, caso queria resetar todas as configurações estabelecidas no myql, faça o seguin:
+1. Acesse a pasta ``./mysql``
+1. Execute ``sudo rm -rf data``
 
-Agora estamos pronto refazer toda a montagem do docker
+A pasta que continha todas as informações de nosso database foi deletada.
+
+_Pronto!_
+
+Agora estamos prontos para refazer toda a montagem do docker
