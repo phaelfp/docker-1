@@ -3,13 +3,15 @@
 > Este repositório trata-se de **anotações pessoais** e não um repositório oficial que deva ser levado em consideração junto aos documentos oficiais de cada ferramenta mencionada aqui
 
 ### Relação de ferramentas
+
 ```
 docker
 docker-compose
 mkcert (brew para a instalação do mkcert dependendo do so)
 ```
 
-### Manjaro KDE - AUR
+### Para Manjaro KDE - AUR
+
 Habilite o repositório AUR na interface gráfica em: ``Adicione ou remova programas instalados no sistema > menu no canto superior direito > Preferências > Tab AUR``
 
 ![](img/prefencias-aur.png)
@@ -27,6 +29,7 @@ _Agora que já temos todas as ferramentas necessárias, mãos à obra._
 ## Montando docker localhost https
 
 ### mkcert
+
 Primeiro, necessitamos fazer a instalação do ``mkcert`` para que possamos gerar nossos certificados, para isso execute: ``mkcert -install``
 
 Já estamos aptos a gerar nossos certificados. Agora salve toda essa estrutura de pastas e arquivos onde desejar.
@@ -41,6 +44,7 @@ Sua estrutura está pronta para ser usada junto aos certificados do ``mkcert`` p
 
 
 ### mysql
+
 Para o acesso ao banco de dados tente como ``mysql`` mas provalmente funcionará como ``loocalhost`` assim como funcionou no ~~JetBrains DataGrip~~ pra mim.
 Caso queira mudar a senha do root e o nome do primeiro database:
 ```
@@ -72,73 +76,81 @@ phpmyadmin:
 ```
 
 ### Montagem do docker
+
 Agora vamos para a montagem do nosso ``docker``, volte para a nossa pasta raiz (que nesta estrutura trata-se da pasta ``./docker``) e execute: ``sudo docker-compose up``
 
-Aguarde a montagem de todas das imagens e _Pronto!_ Agora temos um acesso ``https://localhost``
+Aguarde a montagem de todas das imagens e _Pronto!_ Agora temos um acesso ``https://localhost`` para a pasta ``./www`` e ``https://localhost:8080`` para a pasta ``./app``
 
 
 Caso obtenha um erro e queira remontar todo o ``docker``, segue abaixo alguns comandos.
 
 **observação:** deixarei na ordem exata para que todos os comandos funcionem com sucesso
 
-#### Desmonte os containers: 
+#### Pare os contêiners para remoção
 
-``sudo docker ps -a`` (para listar todos os containers)
+Para listar todos os seus contêiners utilize ``sudo docker ps -a``
 
-Verifique se temos algum como ``Up`` na coluna ``STATUS``, caso sim, será necessário ~~stopa-los~~.
+Veja se a coluna `STATUS` dos contêiners que deseja remove está como `Up ...`, caso positivo execute o comando abaixo com a informação que temos na nossa lista em `contâiner ID`:
 
-_Caso **não**, faça somente o processo de **desmontagem**_
-
-Utilizaremos os ``CONTAINER ID`` para a ``desmontagem`` e ``stop service``, no meu caso tenho:
 ```
-CONTAINER ID        IMAGE                          COMMAND                  CREATED             STATUS                          PORTS                                                    NAMES
-26506552fb5b        phpmyadmin/phpmyadmin:latest   "/docker-entrypoint.…"   16 hours ago        Up 3 hours                      0.0.0.0:8082->80/tcp                                     phpmyadmin
-1e5a335c4dc2        mysql:latest                   "docker-entrypoint.s…"   16 hours ago        Restarting (1) 31 seconds ago                                                            mysql
-088d59016bf8        php:fpm                        "docker-php-entrypoi…"   16 hours ago        Up 3 hours                      9000/tcp, 0.0.0.0:9090->9090/tcp                         phpalt
+sudo docker stop contâiner_ID
 ```
 
-##### stop service
-O comando padrão para **stop service** é ``sudo docker stop [CONTAINER ID]``
-Como temos mais de um faremos a inserção de todos separando-os com espaço ``sudo docker stop 26506552fb5b 1e5a335c4dc2 088d59016bf8``
+Para mais de um contâiner separe-os com espaçoes:
 
-##### desmontagem
-O comando padrão para **desmontagem** é ``sudo docker rm [CONTAINER ID]``
-Como temos mais de um faremos a inserção de todos separando-os com espaço ``sudo docker rm 26506552fb5b 1e5a335c4dc2 088d59016bf8``
-
-
-#### Delete as imagens
-O processo de inserção de várias imagens é idem ao dos containers, porém com o comando para desmontagem das imagens.
-``sudo docker images`` (para listar todas as imagens)
-
-utilizaremos os ``IMAGE ID`` para a ``desmontagem`` de todos que possuem nomenclatura na coluna ``REPOSITORY`` exemplo: php, mysql, nginx, etc, no meu caso tenho:
 ```
-REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
-mysql                   latest              20d2d382e6ae        17 hours ago        456MB
-php                     fpm                 ef8141df4701        17 hours ago        428MB
-phpmyadmin/phpmyadmin   latest              cfc30cbfee46        2 days ago          454MB
+sudo docker stop contâiner_ID contâiner_ID contâiner_ID
 ```
 
-O comando padrão para **desmontagem** é ``sudo docker rmi [IMAGE ID]``
-Como temos mais de um faremos a inserção de todos separando-os com espaço ``sudo docker rmi 20d2d382e6ae ef8141df4701 cfc30cbfee46 ``
+#### Desmonte os contêiners
 
-#### Faça a limpeza do docker
-Este de fato ainda não sei explicar a sua função, mas ao meu entender é como se fosse uma limpeza de cache do docker
-```
-sudo docker system prune
-```
+O ``sudo docker system prune`` removerá todos os contêineres parados, todas as imagens pendentes e todas as redes não utilizadas.
 
-Confirme o processo com ``y`` e depois ``enter``:
 ```
+[wfonseca@laptop docker]$ sudo docker system prune
 WARNING! This will remove:
-  - all stopped containers
-  - all networks not used by at least one container
+  - all stopped contêiners
+  - all networks not used by at least one contâiner
   - all dangling images
   - all dangling build cache
 
 Are you sure you want to continue? [y/N]
 ```
 
+Confirme o processo com ``y`` e depois ``enter``.
+
+##### segunda limpeza
+
+Se você também deseja remover todos os volumes não utilizados, utilize ``sudo docker system prune --volumes``
+
+```
+[wfonseca@laptop docker]$ sudo docker system prune
+WARNING! This will remove:
+  - all stopped contêiners
+  - all networks not used by at least one contâiner
+  - all dangling images
+  - all dangling build cache
+
+Are you sure you want to continue? [y/N]
+```
+
+Confirme o processo com ``y`` e depois ``enter``.
+
+#### Delete as imagens
+
+Para listar todas as suas imagens utilize ``sudo docker images``.
+
+Para remover todas as imagens que não são referenciadas por nenhum contêiner existente (que no caso foram removido anteriormente) utilizaremos ``sudo docker image prune -a``:
+```
+[wfonseca@laptop docker]$ sudo docker image prune -a
+WARNING! This will remove all images without at least one contâiner associated to them.
+Are you sure you want to continue? [y/N]
+```
+
+Confirme o processo com ``y`` e depois ``enter``.
+
 #### Limpeza mysql
+
 Agora que já limpamos as imagens, caso queria resetar todas as configurações estabelecidas no myql, faça o seguin:
 1. Acesse a pasta ``./mysql``
 1. Execute ``sudo rm -rf data``
@@ -148,7 +160,6 @@ A pasta que continha todas as informações de nosso database foi deletada.
 _Pronto!_
 
 Agora estamos prontos para refazer toda a montagem do docker
-
 
 ##### Agradecimentos
 

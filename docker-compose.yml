@@ -8,54 +8,36 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./app:/code
+      - ./www:/code
       - ./conf/nginx.conf:/etc/nginx/conf.d/default.conf
       - ./certs:/etc/ssl/nginx
+      - /www/vendor
     restart: unless-stopped
 
   php:
     container_name: php
     image: php:fpm
+    links:
+      - mysql
     ports:
       - "9000:9000"
     build:
       context: dockerfile
       dockerfile: php
     volumes:
-      - ./app:/code
+      - ./www:/code
       - ./conf/phplog.conf:/usr/local/etc/php-fpm.d/log.conf
       - ./conf/php.conf:/usr/local/etc/php-fpm.d/php.conf
       - ./conf/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./conf/php-fpm.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
     restart: unless-stopped
 
-  nginxalt:
-    container_name: nginxalt
-    image: nginx:latest
-    ports:
-      - "8080:8080"
-      - "8843:8843"
+  php_composer:
+    container_name: php_composer
+    image: composer
     volumes:
-      - ./www:/code
-      - ./conf/nginxalt.conf:/etc/nginx/conf.d/default.conf
-      - ./certs:/etc/ssl/nginx
-    restart: unless-stopped
-
-  phpalt:
-    container_name: phpalt
-    image: php:fpm
-    ports:
-      - "9090:9090"
-    build:
-      context: dockerfile
-      dockerfile: phpalt
-    volumes:
-      - ./www:/code
-      - ./conf/phplog.conf:/usr/local/etc/php-fpm.d/log.conf
-      - ./conf/php.conf:/usr/local/etc/php-fpm.d/php.conf
-      - ./conf/php.ini:/usr/local/etc/php/conf.d/php.ini
-      - ./conf/phpalt-fpm.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
-    restart: unless-stopped
+      - ./www/composer:/app
+    command: composer update
 
   mysql:
     container_name: mysql
