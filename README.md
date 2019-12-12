@@ -90,16 +90,16 @@ Caso obtenha um erro e queira remontar todo o ``docker``, segue abaixo alguns co
 
 Para listar todos os seus contêiners utilize ``sudo docker ps -a``
 
-Veja se a coluna `STATUS` dos contêiners que deseja remove está como `Up ...`, caso positivo execute o comando abaixo com a informação que temos na nossa lista em `contâiner ID`:
+Veja se a coluna `STATUS` dos contêiners que deseja remove está como `Up ...`, caso positivo execute o comando abaixo com a informação que temos na nossa lista em `CONTAINER ID`:
 
 ```
-sudo docker stop contâiner_ID
+sudo docker stop CONTAINER_ID
 ```
 
-Para mais de um contâiner separe-os com espaçoes:
+Para mais de um contêiner separe-os com espaços:
 
 ```
-sudo docker stop contâiner_ID contâiner_ID contâiner_ID
+sudo docker stop CONTAINER_ID CONTAINER_ID CONTAINER_ID
 ```
 
 #### Desmonte os contêiners
@@ -109,8 +109,8 @@ O ``sudo docker system prune`` removerá todos os contêineres parados, todas as
 ```
 [wfonseca@laptop docker]$ sudo docker system prune
 WARNING! This will remove:
-  - all stopped contêiners
-  - all networks not used by at least one contâiner
+  - all stopped containers
+  - all networks not used by at least one container
   - all dangling images
   - all dangling build cache
 
@@ -126,8 +126,8 @@ Se você também deseja remover todos os volumes não utilizados, utilize ``sudo
 ```
 [wfonseca@laptop docker]$ sudo docker system prune
 WARNING! This will remove:
-  - all stopped contêiners
-  - all networks not used by at least one contâiner
+  - all stopped containers
+  - all networks not used by at least one container
   - all dangling images
   - all dangling build cache
 
@@ -143,7 +143,7 @@ Para listar todas as suas imagens utilize ``sudo docker images``.
 Para remover todas as imagens que não são referenciadas por nenhum contêiner existente (que no caso foram removido anteriormente) utilizaremos ``sudo docker image prune -a``:
 ```
 [wfonseca@laptop docker]$ sudo docker image prune -a
-WARNING! This will remove all images without at least one contâiner associated to them.
+WARNING! This will remove all images without at least one containers associated to them.
 Are you sure you want to continue? [y/N]
 ```
 
