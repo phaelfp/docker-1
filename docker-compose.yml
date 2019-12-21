@@ -30,6 +30,8 @@ services:
       - ./conf/php.conf:/usr/local/etc/php-fpm.d/php.conf
       - ./conf/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./conf/php-fpm.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+    environment:
+      PHP_EXTENSION_XDEBUG: 1
     restart: unless-stopped
 
   php_composer:
